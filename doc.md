@@ -37,3 +37,14 @@ _layout <Slot /> to render the  rest of content like outlet
 - redirect href for to redirect to particular route if authenticated or not authenticated
 - safe areia view 
 - touchable opacity and button difference mention here
+
+
+lean appwrite
+appwrite opensource all in one platform this app use for backend infastructure
+
+create project 
+connect platform select react-ntive
+enter details
+com.ami.foodapp
+instll npx expo install react-native-appwrite react-native-url-polyfill
+
