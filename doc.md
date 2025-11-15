@@ -18,3 +18,11 @@ for styling we can use native wind its imilar like tylewind css
 
 learn adding the custom font
 use the usefont hook on the layout and setup the custom fonts
+
+-usefont to load the custom font
+-safeareaview not from react native from "react-native-safe-area-context" this ensure that  the area not cut by notches or edges on any devices
+-flatlist recommented way to render list on react native this as maping the list use when data is long
+-view similar to div
+-text for render texts
+-pressable if u put anything under this and it make as clickable
+
