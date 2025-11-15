@@ -25,5 +25,15 @@ use the usefont hook on the layout and setup the custom fonts
 -view similar to div
 -text for render texts
 -pressable if u put anything under this and it make as clickable
--
+-TouchableOpacity its kindof button in react native
+- scroll flatlist in webdev browser actually add scrollbar when it exceedes the limit
+- in react native the alyout engin not assume tha tu wanna score so you expilicitly wrap your content in a scrollable container scrollview or flatlist
+- never ever wrap a flat list inside a scroll view
+- 
 
+route structure 
+route group (auth ) it will be auth folder routes
+_layout <Slot /> to render the  rest of content like outlet
+- redirect href for to redirect to particular route if authenticated or not authenticated
+- safe areia view 
+- touchable opacity and button difference mention here
