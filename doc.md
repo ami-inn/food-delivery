@@ -15,3 +15,6 @@ npm run reset-project to reset the project to bare miniimum code
 
 
 for styling we can use native wind its imilar like tylewind css
+
+learn adding the custom font
+use the usefont hook on the layout and setup the custom fonts
