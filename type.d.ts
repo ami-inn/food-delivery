@@ -1,7 +1,6 @@
-// import { Models } from "react-native-appwrite";
+import { Models } from "react-native-appwrite";
 
-export interface MenuItem {
-    $id: string;
+export interface MenuItem extends Models.Document {
     name: string;
     price: number;
     image_url: string;
@@ -12,14 +11,12 @@ export interface MenuItem {
     type: string;
 }
 
-export interface Category {
-    $id: string;
+export interface Category extends Models.Document {
     name: string;
     description: string;
 }
 
-export interface User {
-    $id: string;
+export interface User extends Models.Document {
     name: string;
     email: string;
     avatar: string;
@@ -93,18 +90,18 @@ interface ProfileFieldProps {
     icon: ImageSourcePropType;
 }
 
-interface CreateUserPrams {
+export interface CreateUserParams {
     email: string;
     password: string;
     name: string;
 }
 
-interface SignInParams {
+export interface SignInParams {
     email: string;
     password: string;
 }
 
-interface GetMenuParams {
-    category: string;
-    query: string;
+export interface GetMenuParams {
+    category?: string;
+    query?: string;
 }

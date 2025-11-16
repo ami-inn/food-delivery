@@ -48,3 +48,13 @@ enter details
 com.ami.foodapp
 instll npx expo install react-native-appwrite react-native-url-polyfill
 
+authflow
+userenterdata --> call the appwrite auth function =--> create a new auth user ---> call appwrite db ---> store in the user collection --->
+
+we have user couple of orders
+user have multiple addressses
+
+
+need to create db
+create an db and change the appwrite config with the id databaseid
+

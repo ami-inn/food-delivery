@@ -1,16 +1,163 @@
-import { Client } from "react-native-appwrite";
+import { CreateUserParams, SignInParams, GetMenuParams } from "@/type";
+import {
+  Client,
+  Account,
+  TablesDB,
+  Storage,
+  ID,
+  Avatars,
+  Query,
+} from "react-native-appwrite";
 
+// Appwrite configuration
 export const appwriteConfig = {
-    endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
-    projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
-    platform: "com.jsm.foodordering",
-    databaseId: '68629ae60038a7c61fe4',
-    bucketId: '68643e170015edaa95d7',
-    userCollectionId: '68629b0a003d27acb18f',
-    categoriesCollectionId: '68643a390017b239fa0f',
-    menuCollectionId: '68643ad80027ddb96920',
-    customizationsCollectionId: '68643c0300297e5abc95',
-    menuCustomizationsCollectionId: '68643cd8003580ecdd8f'
-}
+  endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
+  projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
+  platform: "com.amithedev.food_me",
+  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
+  bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID!,
+  userTableId: process.env.EXPO_PUBLIC_APPWRITE_USER_TABLE_ID!,
+  categoriesTableId: process.env.EXPO_PUBLIC_APPWRITE_CATEGORIES_TABLE_ID!,
+  menuTableId: process.env.EXPO_PUBLIC_APPWRITE_MENU_TABLE_ID!,
+  customizationsTableId: process.env.EXPO_PUBLIC_APPWRITE_CUSTOMIZATIONS_TABLE_ID!,
+  menuCustomizationsTableId: process.env.EXPO_PUBLIC_APPWRITE_MENU_CUSTOMIZATIONS_TABLE_ID!,
+};
 
+// Initialize Appwrite client
 export const client = new Client();
+
+client
+  .setEndpoint(appwriteConfig.endpoint)
+  .setProject(appwriteConfig.projectId)
+  .setPlatform(appwriteConfig.platform);
+
+// Initialize Appwrite services
+export const account = new Account(client);
+export const tablesDB = new TablesDB(client);
+export const storage = new Storage(client);
+export const avatars = new Avatars(client);
+
+// Export ID and Query utilities
+export { ID, Query };
+
+/**
+ * Create a new user account and profile
+ */
+export const createUser = async ({
+  email,
+  password,
+  name,
+}: CreateUserParams) => {
+  try {
+    const newAccount = await account.create(ID.unique(), email, password, name);
+    if (!newAccount) throw new Error("Failed to create account");
+
+    await signIn({ email, password });
+
+    const avatarUrl = avatars.getInitialsURL(name);
+
+    return await tablesDB.createRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.userTableId,
+      rowId: newAccount.$id, // Use the account $id as the row ID
+      data: { 
+        email, 
+        name, 
+        avatar: avatarUrl.toString() 
+      },
+    });
+  } catch (error) {
+    console.error("Create user error:", error);
+    throw new Error(error as string);
+  }
+};
+
+/**
+ * Sign in with email and password
+ */
+export const signIn = async ({ email, password }: SignInParams) => {
+  try {
+    const session = await account.createEmailPasswordSession(email, password);
+    return session;
+  } catch (error) {
+    console.error("Sign in error:", error);
+    throw new Error(error as string);
+  }
+};
+
+/**
+ * Get the current logged-in user
+ */
+export const getCurrentUser = async () => {
+  try {
+    const currentAccount = await account.get();
+    if (!currentAccount) throw new Error("No account found");
+
+    const currentUser = await tablesDB.getRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.userTableId,
+      rowId: currentAccount.$id, // Use account $id to get the user row directly
+    });
+
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+
+    return currentUser;
+  } catch (error) {
+    console.error("Get current user error:", error);
+    throw new Error(error as string);
+  }
+};
+
+/**
+ * Get menu items with optional filtering by category and search query
+ */
+export const getMenu = async ({ category, query }: GetMenuParams) => {
+  try {
+    const queries: string[] = [];
+
+    if (category) queries.push(Query.equal("categories", category));
+    if (query) queries.push(Query.search("name", query));
+
+    const menus = await tablesDB.listRows({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.menuTableId,
+      queries,
+    });
+
+    return menus.rows;
+  } catch (error) {
+    console.error("Get menu error:", error);
+    throw new Error(error as string);
+  }
+};
+
+/**
+ * Get all categories
+ */
+export const getCategories = async () => {
+  try {
+    const categories = await tablesDB.listRows({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.categoriesTableId,
+    });
+
+    return categories.rows;
+  } catch (error) {
+    console.error("Get categories error:", error);
+    throw new Error(error as string);
+  }
+};
+
+/**
+ * Sign out the current user
+ */
+export const signOut = async () => {
+  try {
+    await account.deleteSession("current");
+  } catch (error) {
+    console.error("Sign out error:", error);
+    throw new Error(error as string);
+  }
+};
