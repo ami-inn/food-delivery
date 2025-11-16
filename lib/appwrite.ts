@@ -68,6 +68,7 @@ export const createUser = async ({
       data: { 
         email, 
         name, 
+        accountId: newAccount.$id,
         avatar: avatarUrl.toString(),
    },
     });
@@ -101,8 +102,10 @@ export const getCurrentUser = async () => {
     const currentUser = await tablesDB.getRow({
       databaseId: appwriteConfig.databaseId,
       tableId: appwriteConfig.userTableId,
-      rowId: currentAccount.$id, // Use account $id to get the user row directly
+      rowId: currentAccount.$id,
     });
+
+    console.log("Current user fetched:", currentUser);
 
     if (!currentUser) {
       throw new Error("User not found");

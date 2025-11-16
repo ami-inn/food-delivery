@@ -61,3 +61,16 @@ configure the creat database and table and rows and colums
 and configure the appwrite like appwrite.ts
 
 KeyboardAvoidingView its use for keyboard will appear below automaticall it will not go above
+
+
+sentry implementation
+create an account on sentry
+and choose the platform 
+npx @sentry/wizard@latest -i reactNative install this
+yes yes
+sentrysas select
+sentry acount yes
+authenticate and create project
+session replay add yes
+click yes
+sentry.catch 
