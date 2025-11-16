@@ -64,6 +64,7 @@ KeyboardAvoidingView its use for keyboard will appear below automaticall it will
 
 
 sentry implementation
+explain here what is sentry is
 create an account on sentry
 and choose the platform 
 npx @sentry/wizard@latest -i reactNative install this

@@ -3,11 +3,14 @@ import { Link, router } from "expo-router";
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButon";
 import { signIn } from "@/lib/appwrite";
+import useAuthStore from "@/store/auth.store";
 import { useState } from "react";
 import * as Sentry from "@sentry/react-native";
+
 const Signin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
+  const { fetchAuthenticatedUser } = useAuthStore();
 
   const submit = async () => {
     const { email, password } = form;
@@ -22,7 +25,7 @@ const Signin = () => {
 
     try {
       await signIn({ email, password });
-
+      await fetchAuthenticatedUser();
       router.replace("/");
     } catch (error: any) {
       Sentry.captureEvent(error);

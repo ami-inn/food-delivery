@@ -59,24 +59,31 @@ export const createUser = async ({
     await signIn({ email, password });
 
     const avatarUrl = avatars.getInitialsURL(name);
-    
 
-    return await tablesDB.createRow({
+    const userData = {
+      name: name,
+      email: email,
+      avatar: avatarUrl.toString(),
+      accountId: newAccount.$id
+    };
+
+    console.log("Creating row with data:", userData);
+
+    const response = await tablesDB.createRow({
       databaseId: appwriteConfig.databaseId,
       tableId: appwriteConfig.userTableId,
-      rowId: newAccount.$id, // Use the account $id as the row ID
-      data: { 
-        email, 
-        name, 
-        accountId: newAccount.$id,
-        avatar: avatarUrl.toString(),
-   },
+      rowId: ID.unique(),
+      data: userData
     });
+
+    console.log("User created:", response);
+    return response;
   } catch (error) {
     console.error("Create user error:", error);
     throw new Error(error as string);
   }
 };
+
 
 /**
  * Sign in with email and password
@@ -99,19 +106,17 @@ export const getCurrentUser = async () => {
     const currentAccount = await account.get();
     if (!currentAccount) throw new Error("No account found");
 
-    const currentUser = await tablesDB.getRow({
+    const currentUser = await tablesDB.listRows({
       databaseId: appwriteConfig.databaseId,
       tableId: appwriteConfig.userTableId,
-      rowId: currentAccount.$id,
+      queries: [Query.equal('accountId', currentAccount.$id)],
     });
 
-    console.log("Current user fetched:", currentUser);
-
-    if (!currentUser) {
+    if (!currentUser || currentUser.rows.length === 0) {
       throw new Error("User not found");
     }
 
-    return currentUser;
+    return currentUser.rows[0];
   } catch (error) {
     console.error("Get current user error:", error);
     throw new Error(error as string);
