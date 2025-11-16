@@ -75,3 +75,7 @@ authenticate and create project
 session replay add yes
 click yes
 sentry.catch 
+
+Tabs = used t is implemented with React Navigation's bottom tabs and offers familiar API if you have already used React Navigation.
+
+t is implemented with React Navigation's bottom tabs and offers familiar API if you have already used React Navigation.
