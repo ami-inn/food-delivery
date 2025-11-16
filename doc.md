@@ -57,4 +57,7 @@ user have multiple addressses
 
 need to create db
 create an db and change the appwrite config with the id databaseid
+configure the creat database and table and rows and colums 
+and configure the appwrite like appwrite.ts
 
+KeyboardAvoidingView its use for keyboard will appear below automaticall it will not go above

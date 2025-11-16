@@ -49,12 +49,17 @@ export const createUser = async ({
   name,
 }: CreateUserParams) => {
   try {
+    console.log("Creating user with email:", email);
+    console.log("Creating user with name:", name);
+    console.log("Creating user with password:", password);
+
     const newAccount = await account.create(ID.unique(), email, password, name);
     if (!newAccount) throw new Error("Failed to create account");
 
     await signIn({ email, password });
 
     const avatarUrl = avatars.getInitialsURL(name);
+    
 
     return await tablesDB.createRow({
       databaseId: appwriteConfig.databaseId,
@@ -63,8 +68,8 @@ export const createUser = async ({
       data: { 
         email, 
         name, 
-        avatar: avatarUrl.toString() 
-      },
+        avatar: avatarUrl.toString(),
+   },
     });
   } catch (error) {
     console.error("Create user error:", error);
