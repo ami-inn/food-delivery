@@ -3,12 +3,12 @@ import React from 'react'
 import {images} from "@/constants";
 // import {useCartStore} from "@/store/cart.store";
 import {router} from "expo-router";
+import { useCartStore } from '@/store/cart.store';
 
 const CartButton = () => {
-    // const { getTotalItems } = useCartStore();
-    // const totalItems = getTotalItems();
-    const totalItems = 3; // Placeholder value for total items in cart
-    const getTotalItems = () => totalItems;
+    const { getTotalItems } = useCartStore();
+    const totalItems = getTotalItems();
+ 
 
     return (
         <TouchableOpacity className="cart-btn" onPress={()=> router.push('/')}>
