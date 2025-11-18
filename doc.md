@@ -59,9 +59,16 @@ need to create db
 create an db and change the appwrite config with the id databaseid
 configure the creat database and table and rows and colums 
 and configure the appwrite like appwrite.ts
+and create table and db accordingly enable the permisions
+
+storage feature of appwrite is used for storing the images and other struffs
 
 KeyboardAvoidingView its use for keyboard will appear below automaticall it will not go above
 
+
+seeding the database
+create the data.ts the dummy datas
+and check the seed.ts file for seeding the database
 
 sentry implementation
 explain here what is sentry is
@@ -79,3 +86,6 @@ sentry.catch
 Tabs = used t is implemented with React Navigation's bottom tabs and offers familiar API if you have already used React Navigation.
 
 t is implemented with React Navigation's bottom tabs and offers familiar API if you have already used React Navigation.
+
+Tabs.Screen
+write the sceen name tible and tabbaricon

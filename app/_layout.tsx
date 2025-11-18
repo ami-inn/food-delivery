@@ -1,3 +1,4 @@
+import "react-native-url-polyfill/auto";
 import { SplashScreen, Stack } from "expo-router";
 import "./global.css";
 import { useFonts } from "expo-font";

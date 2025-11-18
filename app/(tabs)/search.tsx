@@ -1,11 +1,22 @@
-import { View, Text } from 'react-native'
+import { View, Text, Button, Alert } from 'react-native'
 import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import seed from '@/lib/seed'
 
 const search = () => {
   return (
-    <View>
+    <SafeAreaView>
       <Text>search</Text>
-    </View>
+
+<Button title="Seed Database" onPress={async () => {
+  try {
+    await seed();
+    Alert.alert('Success', 'Database seeded!');
+  } catch (error) {
+    Alert.alert('Error', 'Failed to seed database: ' + error);
+  }
+}} />
+</SafeAreaView>
   )
 }
 
