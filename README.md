@@ -484,4 +484,3 @@ Built by [ami-inn](https://github.com/ami-inn) for learning React Native develop
 
 ## 🍿 Video
 
-https://github.com/mirayatech/NinjaSketch/assets/7
