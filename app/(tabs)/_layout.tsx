@@ -80,10 +80,10 @@ const HomeLayout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "profile",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              title="Profile"
+              title="profile"
               icon={images.person}
               focused={focused}
             />
