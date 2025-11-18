@@ -89,3 +89,5 @@ t is implemented with React Navigation's bottom tabs and offers familiar API if 
 
 Tabs.Screen
 write the sceen name tible and tabbaricon
+
+flatlist learned how to render d ynaic data and display data search

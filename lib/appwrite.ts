@@ -131,13 +131,25 @@ export const getMenu = async ({ category, query }: GetMenuParams) => {
     const queries: string[] = [];
 
     if (category) queries.push(Query.equal("categories", category));
-    if (query) queries.push(Query.search("name", query));
-
+    
+    // Note: Query.search() requires a fulltext index on 'name' attribute
+    // To enable search, create a fulltext index in Appwrite Console:
+    // Databases → menu table → Indexes → Create Index (Type: Fulltext, Attribute: name)
+    // For now, we fetch all and filter client-side if search is provided
+    
     const menus = await tablesDB.listRows({
       databaseId: appwriteConfig.databaseId,
       tableId: appwriteConfig.menuTableId,
       queries,
     });
+
+    // Client-side filtering if query is provided and no fulltext index exists
+    if (query && menus.rows.length > 0) {
+      const filteredRows = menus.rows.filter((item: any) => 
+        item.name?.toLowerCase().includes(query.toLowerCase())
+      );
+      return filteredRows;
+    }
 
     return menus.rows;
   } catch (error) {
@@ -174,3 +186,5 @@ export const signOut = async () => {
     throw new Error(error as string);
   }
 };
+
+
